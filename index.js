@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
+import userRouter from "./server/routes/userRouter.js";
+import productRouter from "./server/routes/productRouter.js";
 dotenv.config();
 
 const app = express();
@@ -12,6 +14,9 @@ app.use(express.json());
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // ROUTES
+
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/products", productRouter);
 
 // DATABASE CONNECTION
 mongoose.connect(process.env.DATABASE_URL, () => {
