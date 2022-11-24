@@ -36,12 +36,31 @@ export const loginUser = expressAsync(async (req, res) => {
     const token = generateToken(isExistUser);
     console.log(isExistUser);
     return res
-      .status(201)
+      .status(200)
       .json({ message: "User Login successfully", token, user: isExistUser });
   }
 });
 
 // UPDATE USER
-export const updateUser = expressAsync(async (req, res) => {});
+export const updateUser = expressAsync(async (req, res) => {
+  const user = await userModel.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!user) {
+    return res.status(404).json({ message: "User Not Found" });
+  }
+
+  res.status(200).json({ message: "User Update Successful" });
+});
 // DELETE USER
-export const deleteUser = expressAsync(async (req, res) => {});
+export const deleteUser = expressAsync(async (req, res) => {
+  const user = await userModel.findOneAndDelete(req.params.id);
+
+  if (!user) {
+    return res.status(404).json({ message: "User Not Found" });
+  }
+
+  return res.status(200).json({ message: "User Deleted Success" });
+});
