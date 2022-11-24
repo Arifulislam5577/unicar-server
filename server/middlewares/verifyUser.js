@@ -2,6 +2,7 @@ import USER from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 
+// VERIFY USER TOKEN
 export const verifyToken = asyncHandler(async (req, res, next) => {
   let token;
 
@@ -15,33 +16,44 @@ export const verifyToken = asyncHandler(async (req, res, next) => {
       req.user = await USER.findById(decoded._doc._id);
       next();
     } catch (error) {
-      res.status(401);
-      throw new Error("Not authorized, Token Failed");
+      return res.status(403).json({ message: "Not authorized, Token Failed" });
     }
   }
 
   if (!token) {
-    res.status(401);
-    throw new Error("Invalid Authorization ,No Token");
+    res.status(403).json({ message: "Invalid Authorization ,No Token" });
   }
 });
 
+// VERIFY SELLER TOKEN AND ROLE
 export const verifyTokenAndSeller = asyncHandler(async (req, res, next) => {
   verifyToken(req, res, () => {
     if (req.user.userRole === "seller") {
       next();
     } else {
-      res.status(403).json("You are not alowed to do that!");
+      res.status(403).json({ message: "You are not alowed to do that!" });
     }
   });
 });
 
+// VERIFY ADMIN TOKEN AND ROLE
 export const verifyTokenAndAdmin = asyncHandler(async (req, res, next) => {
   verifyToken(req, res, () => {
     if (req.user.userRole === "admin") {
       next();
     } else {
-      res.status(403).json("You are not alowed to do that!");
+      res.status(403).json({ message: "You are not alowed to do that!" });
+    }
+  });
+});
+
+// VERIFY SELLER TOKEN AND ROLE
+export const verifyTokenAdminOrSeller = asyncHandler(async (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.user.userRole === "seller" || "admin") {
+      next();
+    } else {
+      res.status(403).json({ message: "You are not alowed to do that!" });
     }
   });
 });

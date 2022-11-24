@@ -6,7 +6,11 @@ const userSchema = new Schema(
   {
     userName: { type: String, required: true },
     userEmail: { type: String, required: true, unique: true },
-    userRole: { type: String, default: "buyer" },
+    userRole: {
+      type: String,
+      enum: ["admin", "buyer", "seller"],
+      default: "buyer",
+    },
     isVerified: { type: Boolean, default: false },
   },
   { timestamps: true }
