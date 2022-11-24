@@ -5,8 +5,8 @@ const { Schema, model } = mongoose;
 const userSchema = new Schema(
   {
     userName: { type: String, required: true },
-    userEmail: { type: String, required: true },
-    userRole: { type: Boolean, default: "Buyer" },
+    userEmail: { type: String, required: true, unique: true },
+    userRole: { type: String, default: "buyer" },
     isVerified: { type: Boolean, default: false },
   },
   { timestamps: true }

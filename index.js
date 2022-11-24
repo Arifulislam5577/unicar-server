@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import userRouter from "./server/routes/userRouter.js";
 import productRouter from "./server/routes/productRouter.js";
+import orderRouter from "./server/routes/orderRouter.js";
 dotenv.config();
 
 const app = express();
@@ -14,9 +15,13 @@ app.use(express.json());
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // ROUTES
-
+app.get("/", (req, res) => {
+  res.send(`<div style="margin:0; padding:0; height:95vh; display:grid; place-items:center;  color:#222; font-family:sans-serif">
+  <h1 style="text-align:center">Welcome to <span style="color:red">UNICAR</span> store</h1></div>`);
+});
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/products", productRouter);
+app.use("/api/v1/order", orderRouter);
 
 // DATABASE CONNECTION
 mongoose.connect(process.env.DATABASE_URL, () => {
