@@ -15,6 +15,7 @@ const productSchema = new Schema(
     location: { type: String, required: true },
     isSold: { type: Boolean, default: false },
     isAdvertised: { type: Boolean, default: false },
+    category: { type: String, required: true, enum: ["c", "a", "b"] },
     conditionType: {
       type: String,
       required: true,
