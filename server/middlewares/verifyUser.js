@@ -57,3 +57,15 @@ export const verifyTokenAdminOrSeller = asyncHandler(async (req, res, next) => {
     }
   });
 });
+
+export const verifyTokenAdminOrSellerOrBuyer = asyncHandler(
+  async (req, res, next) => {
+    verifyToken(req, res, () => {
+      if (req.user.userRole === "seller" || "admin" || "buyer") {
+        next();
+      } else {
+        res.status(403).json({ message: "You are not alowed to do that!" });
+      }
+    });
+  }
+);

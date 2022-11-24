@@ -22,7 +22,7 @@ const productSchema = new Schema(
       enum: ["excellent", "good", "fair"],
     },
     sellerInfo: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "user",
     },

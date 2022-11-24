@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/products", productRouter);
-app.use("/api/v1/order", orderRouter);
+app.use("/api/v1/orders", orderRouter);
 
 // DATABASE CONNECTION
 mongoose.connect(process.env.DATABASE_URL, () => {

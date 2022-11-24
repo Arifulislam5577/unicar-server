@@ -1,7 +1,7 @@
 import productModel from "../models/productModel.js";
 import expressAsync from "express-async-handler";
 
-// CREATE USER
+// CREATE PRODUCT
 export const createProduct = expressAsync(async (req, res) => {
   const {
     name,
@@ -40,8 +40,8 @@ export const createProduct = expressAsync(async (req, res) => {
   }
   return res.status(201).json({ message: "Product created successfully" });
 });
-// GETPRODUCTS
 
+// GET PRODUCTS
 export const getProducts = expressAsync(async (req, res) => {
   const { category, isSold, isAdvertised } = req.query;
   let products = await productModel.find();
@@ -59,7 +59,16 @@ export const getProducts = expressAsync(async (req, res) => {
   return res.status(200).json(products);
 });
 
-// UPDATE USER
+// GET PRODUCT BY ID
+
+export const getProductById = expressAsync(async (req, res) => {
+  const product = await productModel
+    .findById(req.params.id)
+    .populate("sellerInfo");
+  res.status(200).json(product);
+});
+
+// UPDATE PRODUCT
 export const updateProduct = expressAsync(async (req, res) => {
   const product = await productModel.findOneAndUpdate(req.params.id, req.body, {
     new: true,
@@ -71,5 +80,12 @@ export const updateProduct = expressAsync(async (req, res) => {
   }
   return res.status(200).json({ message: "Product update successfully" });
 });
-// DELETE USER
-export const deleteProduct = expressAsync(async (req, res) => {});
+// DELETE PRODUCT
+export const deleteProduct = expressAsync(async (req, res) => {
+  const product = await productModel.findOneAndDelete(req.params.id);
+
+  if (!product) {
+    return res.status(404).json({ message: "Product Not Found" });
+  }
+  return res.status(200).json({ message: "Product Delete successfully" });
+});
