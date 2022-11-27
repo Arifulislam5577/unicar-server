@@ -17,9 +17,7 @@ export const createUser = expressAsync(async (req, res) => {
 
   if (newUser) {
     const token = generateToken(newUser);
-    return res
-      .status(201)
-      .json({ message: "User created successfully", token, user: newUser });
+    return res.status(201).json({ token, user: newUser });
   } else {
     return res.status(400).json({ message: "Internal server error" });
   }
@@ -34,10 +32,7 @@ export const loginUser = expressAsync(async (req, res) => {
     return res.status(400).json({ message: "Invalid User credentials" });
   } else {
     const token = generateToken(isExistUser);
-    console.log(isExistUser);
-    return res
-      .status(200)
-      .json({ message: "User Login successfully", token, user: isExistUser });
+    return res.status(200).json({ token, user: isExistUser });
   }
 });
 
@@ -63,4 +58,13 @@ export const deleteUser = expressAsync(async (req, res) => {
   }
 
   return res.status(200).json({ message: "User Deleted Success" });
+});
+
+// GET ALL USER
+
+export const getAllUsers = expressAsync(async (req, res) => {
+  const users = await userModel.find({
+    $and: [{ userRole: { $nin: ["admin"] } }, { userRole: req.query.userRole }],
+  });
+  res.status(200).json(users);
 });

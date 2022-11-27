@@ -15,7 +15,12 @@ const productSchema = new Schema(
     location: { type: String, required: true },
     isSold: { type: Boolean, default: false },
     isAdvertised: { type: Boolean, default: false },
-    category: { type: String, required: true, enum: ["c", "a", "b"] },
+    category: {
+      type: String,
+      required: true,
+      enum: ["tesla", "bmw", "nissan"],
+    },
+
     conditionType: {
       type: String,
       required: true,

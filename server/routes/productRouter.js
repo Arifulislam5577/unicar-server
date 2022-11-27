@@ -22,5 +22,5 @@ productRouter
   .route("/:id")
   .get(getProductById)
   .patch(verifyToken, verifyTokenAndSeller, updateProduct)
-  .delete(verifyToken, verifyTokenAndAdmin, deleteProduct);
+  .delete(verifyToken, verifyTokenAndSeller, deleteProduct);
 export default productRouter;

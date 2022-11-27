@@ -1,5 +1,6 @@
 import productModel from "../models/productModel.js";
 import expressAsync from "express-async-handler";
+import { uplaodImg } from "../utils/uploadImg.js";
 
 // CREATE PRODUCT
 export const createProduct = expressAsync(async (req, res) => {
@@ -17,10 +18,10 @@ export const createProduct = expressAsync(async (req, res) => {
     conditionType,
     sellerInfo,
   } = req.body;
-
+  const img_url = await uplaodImg(image);
   const product = new productModel({
     name,
-    image,
+    image: img_url,
     description,
     originalPrice,
     newPrice,
@@ -43,17 +44,29 @@ export const createProduct = expressAsync(async (req, res) => {
 
 // GET PRODUCTS
 export const getProducts = expressAsync(async (req, res) => {
-  const { category, isSold, isAdvertised } = req.query;
-  let products = await productModel.find();
+  const { isSold, isAdvertised, category, sellerId } = req.query;
+  let products = await productModel.find().populate("sellerInfo");
   if (category) {
-    products = await productModel.find({ category: category });
+    products = await productModel
+      .find({ $and: [{ category: category }, { isSold: false }] })
+      .populate("sellerInfo");
   }
 
   if (isSold && isAdvertised) {
-    products = await productModel.find({
-      isSold: isSold,
-      isAdvertised: isAdvertised,
-    });
+    products = await productModel
+      .find({
+        isSold: isSold,
+        isAdvertised: isAdvertised,
+      })
+      .populate("sellerInfo");
+  }
+
+  if (sellerId) {
+    products = await productModel
+      .find({
+        sellerInfo: sellerId,
+      })
+      .populate("sellerInfo");
   }
 
   return res.status(200).json(products);
@@ -70,15 +83,15 @@ export const getProductById = expressAsync(async (req, res) => {
 
 // UPDATE PRODUCT
 export const updateProduct = expressAsync(async (req, res) => {
-  const product = await productModel.findOneAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
+  const product = await productModel.findById(req.params.id);
 
   if (!product) {
     return res.status(404).json({ message: "Product Not Found" });
+  } else {
+    product.isAdvertised = true;
+    await product.save();
+    return res.status(200).json(product);
   }
-  return res.status(200).json({ message: "Product update successfully" });
 });
 // DELETE PRODUCT
 export const deleteProduct = expressAsync(async (req, res) => {
