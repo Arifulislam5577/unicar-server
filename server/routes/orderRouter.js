@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createOder,
+  createPaymentIntent,
   getOders,
   updateOder,
 } from "../controllers/orderControllers.js";
@@ -14,6 +15,8 @@ orderRouter
   .route("/")
   .post(verifyToken, createOder)
   .get(verifyToken, verifyTokenAdminOrSellerOrBuyer, getOders);
+
+orderRouter.route("/payment").post(verifyToken, createPaymentIntent);
 
 orderRouter.route("/:id").patch(verifyToken, updateOder);
 

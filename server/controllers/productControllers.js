@@ -83,14 +83,20 @@ export const getProductById = expressAsync(async (req, res) => {
 
 // UPDATE PRODUCT
 export const updateProduct = expressAsync(async (req, res) => {
-  const product = await productModel.findById(req.params.id);
+  let product = await productModel.findById(req.params.id);
 
-  if (!product) {
-    return res.status(404).json({ message: "Product Not Found" });
-  } else {
-    product.isAdvertised = true;
+  if (product) {
+    if (req.body.isSold) {
+      product.isSold = true;
+    }
+
+    if (req.body.isAdvertised) {
+      product.isAdvertised = true;
+    }
     await product.save();
     return res.status(200).json(product);
+  } else {
+    return res.status(404).json({ message: "Product Not Found" });
   }
 });
 // DELETE PRODUCT

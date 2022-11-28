@@ -8,8 +8,7 @@ import {
 } from "../controllers/productControllers.js";
 import {
   verifyToken,
-  verifyTokenAdminOrSeller,
-  verifyTokenAndAdmin,
+  verifyTokenAdminOrSellerOrBuyer,
   verifyTokenAndSeller,
 } from "../middlewares/verifyUser.js";
 const productRouter = express.Router();
@@ -17,10 +16,10 @@ const productRouter = express.Router();
 productRouter
   .route("/")
   .get(getProducts)
-  .post(verifyToken, verifyTokenAdminOrSeller, createProduct);
+  .post(verifyToken, verifyTokenAndSeller, createProduct);
 productRouter
   .route("/:id")
   .get(getProductById)
-  .patch(verifyToken, verifyTokenAndSeller, updateProduct)
+  .patch(verifyToken, verifyTokenAdminOrSellerOrBuyer, updateProduct)
   .delete(verifyToken, verifyTokenAndSeller, deleteProduct);
 export default productRouter;

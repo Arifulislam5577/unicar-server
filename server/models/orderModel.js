@@ -15,6 +15,9 @@ const orderSchema = new Schema(
       ref: "user",
     },
     isPaid: { type: Boolean, default: false },
+    transitionId: { type: String },
+    location: { type: String, required: true },
+    phoneNumber: { type: String, required: true },
   },
   { timestamps: true }
 );
