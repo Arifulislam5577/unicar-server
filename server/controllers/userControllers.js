@@ -38,16 +38,15 @@ export const loginUser = expressAsync(async (req, res) => {
 
 // UPDATE USER
 export const updateUser = expressAsync(async (req, res) => {
-  const user = await userModel.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
+  let user = await userModel.findById(req.params.id);
 
-  if (!user) {
-    return res.status(404).json({ message: "User Not Found" });
+  if (user) {
+    user.isVerified = true;
+    await user.save();
+    return res.status(200).json(user);
   }
 
-  res.status(200).json({ message: "User Update Successful" });
+  return res.status(404).json({ message: "User Not Found" });
 });
 // DELETE USER
 export const deleteUser = expressAsync(async (req, res) => {

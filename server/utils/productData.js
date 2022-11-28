@@ -13,7 +13,7 @@ export const data = [
     location: "Dhaka",
     category: "tesla",
     conditionType: "good",
-    sellerInfo: "638359f33b3a779ceee94bf0",
+    sellerInfo: "63847fb380428c5e7283f134",
   },
   {
     name: "Tesla Model 3X",
@@ -29,7 +29,7 @@ export const data = [
     location: "Khulna",
     category: "tesla",
     conditionType: "excellent",
-    sellerInfo: "638359f33b3a779ceee94bf0",
+    sellerInfo: "63847fb380428c5e7283f134",
   },
   {
     name: "Tesla Model Y",
@@ -45,7 +45,7 @@ export const data = [
     location: "Narsingdi",
     category: "tesla",
     conditionType: "good",
-    sellerInfo: "638359f33b3a779ceee94bf0",
+    sellerInfo: "63847fb380428c5e7283f134",
   },
   {
     name: "Nissan Almera",
@@ -61,7 +61,7 @@ export const data = [
     location: "Dhaka",
     category: "nissan",
     conditionType: "fair",
-    sellerInfo: "638359f33b3a779ceee94bf0",
+    sellerInfo: "63847fb380428c5e7283f134",
   },
   {
     name: "Nissan 100NX",
@@ -77,7 +77,7 @@ export const data = [
     location: "Dhaka",
     category: "nissan",
     conditionType: "excellent",
-    sellerInfo: "638359f33b3a779ceee94bf0",
+    sellerInfo: "63847fb380428c5e7283f134",
   },
   {
     name: "Nissan Bassara",
@@ -93,7 +93,7 @@ export const data = [
     location: "B.Baria",
     category: "nissan",
     conditionType: "good",
-    sellerInfo: "638359f33b3a779ceee94bf0",
+    sellerInfo: "63847fb380428c5e7283f134",
   },
   {
     name: "M240i xDrive Coupe",
@@ -109,7 +109,7 @@ export const data = [
     location: "Mohammadpur",
     category: "bmw",
     conditionType: "good",
-    sellerInfo: "638359f33b3a779ceee94bf0",
+    sellerInfo: "63847fb380428c5e7283f134",
   },
   {
     name: "M850i xDrive Gran",
@@ -125,6 +125,6 @@ export const data = [
     location: "Austrilia",
     category: "bmw",
     conditionType: "good",
-    sellerInfo: "638359f33b3a779ceee94bf0",
+    sellerInfo: "63847fb380428c5e7283f134",
   },
 ];

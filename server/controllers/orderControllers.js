@@ -35,19 +35,17 @@ export const getOders = expressAsync(async (req, res) => {
 
 // UPDATE ORDER
 export const updateOder = expressAsync(async (req, res) => {
-  const order = await orderModel.findByIdAndUpdate(
-    req.params.id,
-    { isPaid: true },
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
+  const { transitionId } = req.body;
 
-  if (!order) {
-    return res.status(404).json({ message: "Order Not Found" });
+  let order = await orderModel.findById(req.params.id);
+
+  if (order) {
+    order.isPaid = true;
+    order.transitionId = transitionId;
+    await order.save();
+    return res.status(200).json(order);
   }
-  return res.status(200).json({ message: "Order update successfull" });
+  return res.status(404).json({ message: "Order Not Found" });
 });
 
 export const createPaymentIntent = expressAsync(async (req, res) => {
